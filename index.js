@@ -16,7 +16,7 @@ fastify.get('/', async function handler (request, reply) {
             console.log(color);
             //remove 255 from array
             color.value.pop();
-            reply.send(color.value);
+            reply.send(color);
         });
     });
 })
