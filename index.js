@@ -7,13 +7,16 @@ const fastify = Fastify({
 
 fastify.get('/', async function handler (request, reply) {
     console.log(request.query.url)
-    fetch(request.query.url)
+    await fetch(request.query.url)
     .then(res => res.blob())
     .then(async blob => {
         var buffer = await blob.arrayBuffer();
         fs.writeFileSync('./media_player.jpeg', Buffer.from(buffer));
-        getAverageColor('./media_player.jpeg').then(color => {
+        await getAverageColor('./media_player.jpeg').then(color => {
             console.log(color);
+            //remove 255 from array
+            color.value.pop();
+            reply.send(color.value);
         });
     });
 })
